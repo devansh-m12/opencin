@@ -1,0 +1,11 @@
+---
+description: Error handling rules for the application to ensure robust and user-friendly error management.
+alwaysApply: false
+---
+- All thrown errors must include a unique error code and a user-friendly message.
+- Use a global error handler for API routes and server actions.
+- Log errors with contextual metadata (user ID, request ID, etc.).
+- All user-facing error messages must be actionable and avoid technical jargon.
+- Implement robust error handling and logging mechanisms.
+- Provide clear and user-friendly error messages to the end-users.
+- Consider using custom error types for consistent error handling.

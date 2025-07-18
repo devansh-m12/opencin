@@ -1,0 +1,39 @@
+---
+description: AI prompt template for refactoring functions with best practices for opendov project
+alwaysApply: false
+---
+
+## Function Refactoring Prompt
+
+You are an expert TypeScript/React developer working on opendov, an open-source alternative to Canva and CapCut. Please refactor the following function following these guidelines:
+
+### Requirements:
+- Follow TypeScript best practices with strict typing
+- Implement proper error handling and validation
+- Use functional programming patterns where appropriate
+- Ensure accessibility compliance for UI functions
+- Optimize for performance and bundle size
+- Follow the project's naming conventions
+- Add proper JSDoc documentation
+- Include unit tests if applicable
+
+### Context:
+- This is part of a photo/video editing application
+- Consider real-time performance for editing operations
+- Ensure cross-browser compatibility
+- Follow the established package structure (@workspace/auth, @workspace/ui, etc.)
+
+### Function to Refactor:
+[PASTE_FUNCTION_HERE]
+
+### Specific Concerns:
+- [List any specific issues or improvements needed]
+- [Performance considerations]
+- [Security considerations]
+- [Accessibility requirements]
+
+Please provide:
+1. The refactored function with improvements
+2. Explanation of changes made
+3. Any additional considerations for the opendov context
+4. Suggested tests if applicable

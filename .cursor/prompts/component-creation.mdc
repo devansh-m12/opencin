@@ -1,0 +1,49 @@
+---
+description: AI prompt template for creating React components with opendov-specific requirements
+alwaysApply: false
+---
+
+## Component Creation Prompt
+
+You are an expert React/TypeScript developer creating components for opendov, an open-source alternative to Canva and CapCut. Please create a component following these guidelines:
+
+### Component Requirements:
+- **TypeScript**: Strict typing with proper interfaces
+- **Accessibility**: WCAG 2.1 AA compliance
+- **Performance**: Optimized rendering and bundle size
+- **Styling**: Tailwind CSS with consistent design tokens
+- **Testing**: Unit tests with proper coverage
+- **Documentation**: JSDoc comments and usage examples
+
+### Opendov-Specific Requirements:
+- **Real-time Performance**: Optimized for live editing operations
+- **Media Handling**: Support for image/video processing
+- **Responsive Design**: Works on desktop and mobile
+- **Cross-browser**: Compatible with modern browsers
+- **User Experience**: Intuitive editing interface
+- **Package Structure**: Follow @workspace/ui conventions
+
+### Component Details:
+- **Name**: [COMPONENT_NAME]
+- **Purpose**: [DESCRIBE_FUNCTIONALITY]
+- **Props**: [LIST_REQUIRED_PROPS]
+- **State**: [DESCRIBE_STATE_MANAGEMENT]
+- **Interactions**: [DESCRIBE_USER_INTERACTIONS]
+
+### Technical Specifications:
+- **Package**: @workspace/ui
+- **Dependencies**: [LIST_DEPENDENCIES]
+- **Performance**: [SPECIFIC_PERFORMANCE_REQUIREMENTS]
+- **Accessibility**: [SPECIFIC_A11Y_REQUIREMENTS]
+
+### Context:
+- [DESCRIBE_WHERE_THIS_COMPONENT_WILL_BE_USED]
+- [INTEGRATION_WITH_OTHER_COMPONENTS]
+- [SPECIAL_CONSIDERATIONS]
+
+Please provide:
+1. **Component Code** with TypeScript interfaces
+2. **Unit Tests** with proper coverage
+3. **Usage Examples** and documentation
+4. **Performance Considerations**
+5. **Accessibility Features**

@@ -1,0 +1,109 @@
+---
+description: Step-by-step workflow for fixing bugs in opendov project
+alwaysApply: false
+---
+
+## Bug Fix Workflow
+
+### Phase 1: Bug Analysis
+1. **Bug Identification**
+   - Reproduce the bug consistently
+   - Document steps to reproduce
+   - Identify affected components and packages
+   - Assess impact on user experience
+
+2. **Root Cause Analysis**
+   - Analyze error logs and stack traces
+   - Identify the source of the issue
+   - Check for related issues or patterns
+   - Consider performance implications
+
+3. **Priority Assessment**
+   - Determine bug severity (Critical, High, Medium, Low)
+   - Assess impact on real-time editing features
+   - Consider security implications
+   - Plan fix timeline
+
+### Phase 2: Fix Planning
+1. **Solution Design**
+   - Plan the fix approach
+   - Consider multiple solutions
+   - Assess impact on existing functionality
+   - Plan testing strategy
+
+2. **Package Impact**
+   - Identify affected packages
+   - Plan necessary updates
+   - Consider dependency changes
+   - Update TypeScript types if needed
+
+3. **Testing Strategy**
+   - Plan unit tests for the fix
+   - Plan integration tests
+   - Plan regression testing
+   - Plan performance testing
+
+### Phase 3: Implementation
+1. **Fix Development**
+   - Implement the fix following project rules
+   - Ensure proper error handling
+   - Maintain accessibility compliance
+   - Optimize for performance
+
+2. **Code Quality**
+   - Follow TypeScript best practices
+   - Add proper documentation
+   - Ensure code readability
+   - Follow naming conventions
+
+3. **Testing**
+   - Write tests for the fix
+   - Test edge cases
+   - Test accessibility
+   - Test performance impact
+
+### Phase 4: Validation
+1. **Local Testing**
+   - Test the fix locally
+   - Verify bug is resolved
+   - Test related functionality
+   - Performance testing
+
+2. **Integration Testing**
+   - Test with other components
+   - Test cross-browser compatibility
+   - Test with large media files
+   - Test real-time editing features
+
+3. **Regression Testing**
+   - Ensure no new bugs introduced
+   - Test existing functionality
+   - Test performance impact
+   - Test accessibility compliance
+
+### Phase 5: Deployment
+1. **Code Review**
+   - Self-review the fix
+   - Peer review if needed
+   - Address feedback
+   - Final testing
+
+2. **Deployment**
+   - Deploy to staging first
+   - Test in staging environment
+   - Deploy to production
+   - Monitor for issues
+
+3. **Post-deployment**
+   - Monitor for regressions
+   - Gather user feedback
+   - Document the fix
+   - Update documentation
+
+### Opendov-Specific Bug Considerations
+- **Real-time Editing**: Ensure fixes don't break live editing
+- **Media Processing**: Test with various file formats and sizes
+- **Performance**: Ensure fixes don't impact editing performance
+- **Cross-browser**: Test across different browsers
+- **Accessibility**: Ensure fixes maintain accessibility
+- **User Experience**: Minimize disruption to editing workflow

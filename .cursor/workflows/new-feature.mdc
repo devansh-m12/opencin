@@ -1,0 +1,100 @@
+---
+description: Step-by-step workflow for implementing new features in opendov project
+alwaysApply: false
+---
+
+## New Feature Implementation Workflow
+
+### Phase 1: Planning & Design
+1. **Feature Analysis**
+   - Define feature requirements and user stories
+   - Identify affected packages and components
+   - Plan API endpoints and data models
+   - Consider performance implications for real-time editing
+
+2. **Technical Design**
+   - Create component architecture diagrams
+   - Design TypeScript interfaces and types
+   - Plan state management strategy
+   - Consider accessibility requirements
+
+3. **Package Planning**
+   - Determine which packages need updates
+   - Plan new package creation if needed
+   - Update package dependencies
+
+### Phase 2: Development Setup
+1. **Branch Creation**
+   ```bash
+   git checkout -b feature/[feature-name]
+   ```
+
+2. **Package Updates**
+   - Update relevant packages (@workspace/ui, @workspace/routes, etc.)
+   - Add new dependencies if needed
+   - Update TypeScript configurations
+
+3. **Development Environment**
+   - Ensure all packages build correctly
+   - Set up testing environment
+   - Configure development tools
+
+### Phase 3: Implementation
+1. **Core Development**
+   - Implement TypeScript interfaces and types
+   - Create React components with proper accessibility
+   - Implement API routes and server actions
+   - Add proper error handling and validation
+
+2. **Integration**
+   - Integrate with existing components
+   - Update package exports
+   - Ensure proper package boundaries
+
+3. **Testing**
+   - Write unit tests for components
+   - Write integration tests for API routes
+   - Test accessibility compliance
+   - Performance testing for real-time features
+
+### Phase 4: Quality Assurance
+1. **Code Review**
+   - Self-review against project rules
+   - Peer review with team members
+   - Address feedback and suggestions
+
+2. **Testing**
+   - Run full test suite
+   - Test cross-browser compatibility
+   - Performance testing with large media files
+   - Accessibility testing with screen readers
+
+3. **Documentation**
+   - Update component documentation
+   - Update API documentation
+   - Update README files
+   - Create usage examples
+
+### Phase 5: Deployment
+1. **Pre-deployment**
+   - Final testing in staging environment
+   - Performance optimization
+   - Security review
+
+2. **Deployment**
+   - Merge to main branch
+   - Deploy to production
+   - Monitor for issues
+
+3. **Post-deployment**
+   - Monitor performance metrics
+   - Gather user feedback
+   - Plan future improvements
+
+### Opendov-Specific Considerations
+- **Media Processing**: Ensure efficient image/video handling
+- **Real-time Performance**: Optimize for live editing operations
+- **User Experience**: Maintain intuitive editing interface
+- **Cross-browser**: Test with modern browsers
+- **Accessibility**: Ensure WCAG 2.1 AA compliance
+- **Collaboration**: Consider multi-user editing features

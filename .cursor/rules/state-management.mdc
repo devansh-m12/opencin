@@ -1,0 +1,19 @@
+---
+description: State management patterns and best practices for React applications to ensure predictable and maintainable state handling.
+alwaysApply: false
+---
+- Use React Context sparingly and only for truly global state.
+- Prefer local state over global state when possible.
+- Use useReducer for complex state logic with multiple sub-values.
+- Implement proper state normalization for complex data structures.
+- Use custom hooks to encapsulate stateful logic and make it reusable.
+- Avoid prop drilling by using Context or state management libraries appropriately.
+- Use Zustand or Redux Toolkit for complex global state management.
+- Implement optimistic updates for better user experience.
+- Use React Query for server state management and caching.
+- Implement proper loading and error states for async operations.
+- Use useCallback and useMemo to prevent unnecessary re-renders.
+- Structure state to minimize re-renders and improve performance.
+- Use TypeScript for type-safe state management.
+- Implement proper state persistence strategies when needed.
+- Use React DevTools to debug state changes and component re-renders.

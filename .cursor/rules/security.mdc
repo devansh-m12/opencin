@@ -1,0 +1,12 @@
+---
+description: Security best practices and guidelines for protecting applications and user data.
+alwaysApply: false
+---
+
+- All user input must be validated and sanitized.
+- Never log sensitive information (passwords, tokens, PII).
+- Use environment variables for secrets, never hardcode them.
+- Use HTTPS for all network requests in production.
+- All authentication tokens must be stored securely (e.g., HTTP-only cookies).
+- Implement rate limiting on all API endpoints.
+- Regularly audit dependencies for vulnerabilities.

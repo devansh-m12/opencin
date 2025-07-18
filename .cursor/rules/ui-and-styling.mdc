@@ -1,0 +1,20 @@
+---
+description: UI and styling best practices for creating accessible, responsive, and maintainable user interfaces.
+alwaysApply: false
+---
+- All UI components must be accessible (WCAG 2.1 AA).
+- Use semantic HTML elements wherever possible.
+- All interactive elements must have focus states.
+- All color choices must pass contrast checks.
+- No inline styles—use Tailwind or component libraries only.
+- All UI components must have Storybook stories (if Storybook is used).
+- All components must be tested for keyboard navigation.
+- Use Tailwind's utility classes for spacing, sizing, and layout—avoid custom CSS unless necessary.
+- All forms must have proper labels and ARIA attributes.
+- Use Radix UI primitives for all dialogs, popovers, and tooltips.
+- All images must include descriptive alt text.
+- Avoid using fixed pixel values for widths/heights; use responsive units (%, rem, em, vw, vh).
+- Use Shadcn UI, Radix UI and Tailwind for components and styling.
+- Make use of the components, hooks and utils available in `@workspace/ui/components`, `@workspace/ui/hooks` and `@workspace/ui/lib`.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+- Configure the Tailwind CSS theme in the `tooling/tailwind/index.js` file.

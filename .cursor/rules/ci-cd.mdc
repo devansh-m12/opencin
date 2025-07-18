@@ -1,0 +1,10 @@
+---
+description: CI/CD pipeline and deployment best practices for automated and secure software delivery.
+alwaysApply: false
+---
+
+- All code must pass linting and formatting checks before merging.
+- All code must be automatically deployed to a staging environment before production.
+- All pull requests must be reviewed by at least one other developer.
+- Enforce branch protection rules on main/master.
+- Automatically run security checks (e.g., Snyk, Dependabot) on all dependencies.

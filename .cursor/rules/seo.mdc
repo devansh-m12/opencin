@@ -1,0 +1,19 @@
+---
+description: SEO optimization and metadata management for improved search engine visibility and user engagement.
+alwaysApply: false
+---
+- Use proper meta tags for all pages (title, description, keywords).
+- Implement proper Open Graph tags for social media sharing.
+- Use proper structured data (JSON-LD) for search engines.
+- Implement proper canonical URLs to prevent duplicate content.
+- Use proper heading hierarchy (h1, h2, h3, etc.) for content structure.
+- Implement proper alt text for all images and media.
+- Use proper URL structure and routing for SEO-friendly URLs.
+- Implement proper sitemap generation and submission.
+- Use proper robots.txt configuration for search engine crawling.
+- Implement proper page loading speed optimization for Core Web Vitals.
+- Use proper internal linking strategies for better site structure.
+- Implement proper mobile-first responsive design.
+- Use proper schema markup for rich snippets.
+- Implement proper analytics and tracking for SEO performance.
+- Use proper internationalization (i18n) for multi-language SEO.

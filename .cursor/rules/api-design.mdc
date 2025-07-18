@@ -1,0 +1,19 @@
+---
+description: API design and server-side development best practices for Next.js applications.
+alwaysApply: false
+---
+- Use RESTful conventions for API endpoint design.
+- Implement proper HTTP status codes and error responses.
+- Use server actions for mutations instead of traditional API routes when possible.
+- Implement proper request validation using Zod or similar libraries.
+- Use proper content negotiation (Accept headers) for API responses.
+- Implement proper API versioning strategy.
+- Use proper HTTP methods (GET, POST, PUT, DELETE, PATCH).
+- Implement proper API documentation using OpenAPI/Swagger.
+- Use proper request/response serialization and deserialization.
+- Implement proper API rate limiting and throttling.
+- Use proper API authentication and authorization middleware.
+- Implement proper API error handling and logging.
+- Use proper API response caching strategies.
+- Implement proper API monitoring and analytics.
+- Use proper API testing strategies (unit, integration, e2e).

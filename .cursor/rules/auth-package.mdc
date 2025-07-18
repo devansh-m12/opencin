@@ -1,0 +1,19 @@
+---
+description: Authentication package rules for Auth.js integration, session management, and authorization patterns.
+alwaysApply: false
+---
+- Use Auth.js (NextAuth) for authentication provider integration.
+- Implement proper session management with secure cookie settings.
+- Use role-based access control (RBAC) for authorization.
+- Implement proper JWT token management with appropriate expiration times.
+- Use environment variables for all authentication secrets and keys.
+- Implement proper error handling for authentication failures.
+- Use Auth.js providers for OAuth integration (Google, GitHub, etc.).
+- Implement proper CSRF protection for authentication forms.
+- Use secure headers and HTTPS for all authentication endpoints.
+- Implement proper rate limiting for authentication attempts.
+- Use Auth.js callbacks for custom authentication logic.
+- Implement proper user profile management and validation.
+- Use Auth.js middleware for protecting routes and API endpoints.
+- Implement proper audit logging for authentication events.
+- Create reusable authentication hooks and utilities.

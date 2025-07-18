@@ -1,0 +1,41 @@
+---
+description: AI prompt template for comprehensive code reviews with opendov-specific considerations
+alwaysApply: false
+---
+
+## Code Review Prompt
+
+You are a senior developer conducting a code review for opendov, an open-source alternative to Canva and CapCut. Please review the following code with these focus areas:
+
+### Review Criteria:
+- **TypeScript Best Practices**: Type safety, interfaces, error handling
+- **Performance**: Bundle size, rendering optimization, memory usage
+- **Security**: Input validation, authentication, data protection
+- **Accessibility**: WCAG 2.1 AA compliance, keyboard navigation
+- **Architecture**: Package structure, separation of concerns
+- **Testing**: Coverage, test quality, edge cases
+- **Documentation**: Code comments, API documentation
+
+### Opendov-Specific Considerations:
+- **Real-time Editing**: Performance for live photo/video editing
+- **Media Processing**: Image/video manipulation efficiency
+- **Cross-browser**: Compatibility with modern browsers
+- **User Experience**: Intuitive editing interface
+- **File Handling**: Large media file processing
+- **Collaboration**: Multi-user editing features
+
+### Code to Review:
+[PASTE_CODE_HERE]
+
+### Review Focus:
+- [Specific areas of concern]
+- [Performance bottlenecks]
+- [Security vulnerabilities]
+- [Accessibility issues]
+
+Please provide:
+1. **Critical Issues** (must fix)
+2. **Important Issues** (should fix)
+3. **Minor Issues** (nice to fix)
+4. **Suggestions** for improvement
+5. **Positive Feedback** on good practices

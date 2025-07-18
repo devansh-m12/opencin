@@ -1,0 +1,12 @@
+---
+description: Testing strategies and best practices for ensuring code quality and reliability.
+alwaysApply: false
+---
+
+- All code must have corresponding tests.
+- Achieve at least 80% code coverage for all critical modules.
+- All UI components must have snapshot tests.
+- Use data-testid attributes for testing selectors.
+- Run tests in parallel to speed up CI.
+- All tests must pass before merging.
+- Use mocks/stubs for external dependencies in tests.

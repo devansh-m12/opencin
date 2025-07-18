@@ -1,0 +1,14 @@
+---
+description: Next.js development rules and best practices for modern React applications with app router.
+alwaysApply: false
+---
+
+- Favor React Server Components (RSC) where possible.
+- Minimize `'use client'` directives.
+- Optimize for performance and Web Vitals.
+- Use server actions for mutations instead of route handlers.
+- Use `next/image` for optimized image loading.
+- All API responses must be typed with TypeScript interfaces or types.
+- Use getServerSideProps or getStaticProps only when necessary; prefer server components.
+- All dynamic routes must have fallback handling.
+- Use absolute imports instead of relative imports for shared modules.

@@ -1,0 +1,109 @@
+---
+description: Step-by-step workflow for performance optimization in opendov project
+alwaysApply: false
+---
+
+## Performance Optimization Workflow
+
+### Phase 1: Performance Analysis
+1. **Performance Profiling**
+   - Identify performance bottlenecks
+   - Measure bundle size and loading times
+   - Analyze rendering performance
+   - Profile memory usage
+
+2. **Real-time Editing Analysis**
+   - Measure editing operation latency
+   - Analyze media processing performance
+   - Test with large file sizes
+   - Monitor CPU and memory usage
+
+3. **User Experience Metrics**
+   - Measure Core Web Vitals
+   - Analyze user interaction responsiveness
+   - Test cross-browser performance
+   - Monitor real user metrics
+
+### Phase 2: Optimization Planning
+1. **Priority Identification**
+   - Rank performance issues by impact
+   - Focus on critical user paths
+   - Plan optimization strategy
+   - Set performance targets
+
+2. **Technical Analysis**
+   - Identify optimization opportunities
+   - Plan code splitting strategy
+   - Optimize bundle size
+   - Plan caching strategies
+
+3. **Testing Strategy**
+   - Plan performance testing
+   - Set up performance monitoring
+   - Plan A/B testing if needed
+   - Define success metrics
+
+### Phase 3: Implementation
+1. **Code Optimization**
+   - Implement code splitting
+   - Optimize component rendering
+   - Implement lazy loading
+   - Optimize state management
+
+2. **Bundle Optimization**
+   - Reduce bundle size
+   - Implement tree shaking
+   - Optimize dependencies
+   - Implement dynamic imports
+
+3. **Media Optimization**
+   - Optimize image loading
+   - Implement video optimization
+   - Use appropriate formats
+   - Implement progressive loading
+
+### Phase 4: Testing & Validation
+1. **Performance Testing**
+   - Test with various file sizes
+   - Test cross-browser performance
+   - Test on different devices
+   - Test network conditions
+
+2. **Real-time Testing**
+   - Test editing performance
+   - Test collaboration features
+   - Test with multiple users
+   - Test concurrent operations
+
+3. **User Experience Testing**
+   - Test interface responsiveness
+   - Test accessibility performance
+   - Test mobile performance
+   - Test offline functionality
+
+### Phase 5: Monitoring & Maintenance
+1. **Performance Monitoring**
+   - Set up performance alerts
+   - Monitor real user metrics
+   - Track performance trends
+   - Monitor error rates
+
+2. **Continuous Optimization**
+   - Regular performance audits
+   - Update optimization strategies
+   - Monitor new features
+   - Plan future optimizations
+
+3. **Documentation**
+   - Document optimization techniques
+   - Update performance guidelines
+   - Share best practices
+   - Train team members
+
+### Opendov-Specific Performance Considerations
+- **Real-time Editing**: Ensure sub-100ms response times
+- **Media Processing**: Optimize for large file handling
+- **Collaboration**: Minimize latency for multi-user editing
+- **Cross-browser**: Ensure consistent performance
+- **Mobile**: Optimize for touch interactions
+- **Offline**: Implement efficient caching strategies

@@ -1,0 +1,15 @@
+- Follow the single responsibility principle for components.
+- Use composition over inheritance for component design.
+- Implement proper prop drilling alternatives (Context, custom hooks).
+- Use proper component naming conventions (PascalCase).
+- Implement proper component documentation with JSDoc comments.
+- Use proper component testing strategies (unit, integration).
+- Implement proper component error boundaries.
+- Use proper component lazy loading for large components.
+- Implement proper component memoization strategies.
+- Use proper component state management patterns.
+- Implement proper component lifecycle management.
+- Use proper component styling strategies (CSS modules, styled-components).
+- Implement proper component accessibility patterns.
+- Use proper component performance optimization techniques.
+- Implement proper component reusability patterns.

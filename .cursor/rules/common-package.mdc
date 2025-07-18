@@ -1,0 +1,19 @@
+---
+description: Common package rules for shared utilities, types, constants, and cross-package functionality.
+alwaysApply: false
+---
+- Create shared TypeScript types and interfaces for cross-package use.
+- Implement shared utility functions for common operations.
+- Use proper constant definitions and environment variable handling.
+- Create shared validation schemas using Zod or similar libraries.
+- Implement shared error types and error handling utilities.
+- Use proper shared configuration management and defaults.
+- Create shared date/time utilities and formatting functions.
+- Implement shared string manipulation and text processing utilities.
+- Use proper shared logging and debugging utilities.
+- Create shared testing utilities and mock factories.
+- Implement shared performance monitoring and metrics utilities.
+- Use proper shared security utilities and encryption helpers.
+- Create shared database utilities and connection helpers.
+- Implement shared API utilities and HTTP client helpers.
+- Use proper shared package exports and entry points.

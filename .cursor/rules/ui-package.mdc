@@ -1,0 +1,15 @@
+- Use Shadcn UI and Radix UI primitives for base components.
+- Implement proper component composition and prop drilling alternatives.
+- Use Tailwind CSS for styling with consistent design tokens.
+- Create reusable component variants with proper TypeScript types.
+- Implement proper component documentation with Storybook.
+- Use proper component testing strategies (unit, integration, visual).
+- Implement proper component accessibility patterns (WCAG 2.1 AA).
+- Create proper component error boundaries and loading states.
+- Use proper component memoization for performance optimization.
+- Implement proper component theming and dark mode support.
+- Create reusable hooks for common UI patterns.
+- Use proper component naming conventions (PascalCase).
+- Implement proper component versioning and changelog.
+- Create proper component examples and usage documentation.
+- Use proper component bundle optimization and tree-shaking.

@@ -1,0 +1,10 @@
+---
+description: Documentation standards and best practices for maintaining clear and comprehensive project documentation.
+alwaysApply: false
+---
+
+- All new features must be documented in the project's README or a dedicated docs folder.
+- All breaking changes must be documented in a CHANGELOG.
+- All utility functions and hooks must have usage examples in the documentation.
+- Maintain an up-to-date architecture diagram in the docs.
+- All environment variables must be documented in an .env.example file.

@@ -1,0 +1,19 @@
+---
+description: Performance optimization strategies for Next.js applications to ensure fast and responsive user experiences.
+alwaysApply: false
+---
+- Optimize bundle size by using dynamic imports for large components.
+- Implement proper caching strategies for API responses and static assets.
+- Use React.memo() for expensive components that re-render frequently.
+- Optimize images with next/image and appropriate formats (WebP, AVIF).
+- Implement code splitting for routes and large components.
+- Use React.lazy() for component-level code splitting.
+- Minimize JavaScript bundle size by tree-shaking unused code.
+- Implement proper loading states to improve perceived performance.
+- Use Intersection Observer for lazy loading of below-the-fold content.
+- Optimize database queries with proper indexing and pagination.
+- Implement service workers for offline functionality when appropriate.
+- Use React DevTools Profiler to identify performance bottlenecks.
+- Implement proper error boundaries to prevent cascading failures.
+- Use React Query or SWR for efficient data fetching and caching.
+- Optimize CSS by removing unused styles and using CSS-in-JS efficiently.

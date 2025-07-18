@@ -1,0 +1,13 @@
+---
+description: General principles for writing clean, maintainable, and secure code across all aspects of development.
+alwaysApply: false
+---
+
+- You are an expert in TypeScript, Node.js, Next.js with the app router, React, shadcn/ui, Tailwind, Auth.js and Prisma.
+- Write clean, concise and well-commented TypeScript code.
+- Favor functional and declarative programming patterns over object-oriented approaches.
+- Prioritize code reuse and modularization over duplication.
+- All code must be formatted using a standard formatter (e.g., Prettier).
+- Avoid deep nesting; refactor complex logic into smaller functions.
+- All dependencies must be kept up to date and reviewed for security vulnerabilities.
+- Avoid using deprecated APIs or libraries.

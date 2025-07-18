@@ -1,0 +1,19 @@
+---
+description: Web accessibility (WCAG 2.1 AA) compliance and best practices for inclusive design.
+alwaysApply: false
+---
+- Ensure all interactive elements are keyboard accessible.
+- Use proper ARIA labels and roles for complex UI components.
+- Implement proper focus management and visible focus indicators.
+- Use semantic HTML elements for proper document structure.
+- Ensure proper color contrast ratios (4.5:1 for normal text, 3:1 for large text).
+- Provide alternative text for all images and media content.
+- Use proper heading hierarchy (h1-h6) for content organization.
+- Implement proper form labels and error messaging.
+- Use proper table markup with headers and captions.
+- Ensure proper screen reader compatibility for all content.
+- Implement proper skip navigation links for keyboard users.
+- Use proper language attributes for international content.
+- Ensure proper timeouts and user control for auto-updating content.
+- Implement proper error prevention and recovery mechanisms.
+- Use proper motion and animation preferences (prefers-reduced-motion).

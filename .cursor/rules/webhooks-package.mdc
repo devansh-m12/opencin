@@ -1,0 +1,19 @@
+---
+description: Webhooks package rules for webhook handlers, integrations, and event processing patterns.
+alwaysApply: false
+---
+- Implement proper webhook signature verification for security.
+- Use proper webhook retry mechanisms and dead letter queues.
+- Implement proper webhook rate limiting and throttling.
+- Use proper webhook event logging and monitoring.
+- Implement proper webhook error handling and recovery.
+- Use proper webhook payload validation and sanitization.
+- Implement proper webhook authentication and authorization.
+- Use proper webhook versioning and backward compatibility.
+- Implement proper webhook testing strategies (unit, integration).
+- Use proper webhook documentation and examples.
+- Implement proper webhook security headers and HTTPS.
+- Use proper webhook event ordering and deduplication.
+- Implement proper webhook performance optimization.
+- Use proper webhook monitoring and alerting.
+- Create reusable webhook utilities and middleware.

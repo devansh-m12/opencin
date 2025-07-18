@@ -1,0 +1,13 @@
+---
+description: TypeScript best practices for Next.js applications to ensure type safety and maintainable code.
+alwaysApply: false
+---
+
+- All API responses must be typed with TypeScript interfaces or types.
+- All TypeScript code must pass strict type checking (strict: true in tsconfig).
+- Use proper type annotations for all variables, parameters, and return values.
+- Prefer interfaces over types for object shapes.
+- Use utility types (Partial, Pick, Omit) when appropriate.
+- Avoid using `any` type; use `unknown` or proper typing instead.
+- Use const assertions for immutable data.
+- Implement proper error handling with typed error objects.

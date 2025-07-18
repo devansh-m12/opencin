@@ -1,0 +1,101 @@
+---
+description: Intelligent rule application system that automatically applies relevant rules based on file types, context, and keywords.
+alwaysApply: true
+---
+
+## File Type Based Rules
+
+### TypeScript/JavaScript Files
+- Apply TypeScript rules for `.ts`, `.tsx`, `.js`, `.jsx` files
+- Apply Next.js rules for files in `app/` directory
+- Apply component architecture rules for React components
+- Apply state management rules when using hooks or state
+
+### Database Files
+- Apply database rules for `schema.prisma`, database migrations, and seed files
+- Apply Prisma-specific patterns for database operations
+
+### API Files
+- Apply API design rules for `route.ts` files and server actions
+- Apply authentication rules for protected endpoints
+- Apply error handling rules for all API operations
+
+### UI Component Files
+- Apply UI and styling rules for component files
+- Apply accessibility rules for all UI components
+- Apply component architecture rules for component design
+
+### Package Files
+- Apply package structure rules for all package organization
+- Apply auth package rules for authentication-related files
+- Apply UI package rules for component library files
+- Apply routes package rules for API route files
+- Apply webhooks package rules for webhook handler files
+- Apply common package rules for shared utility files
+- Apply API keys package rules for API key management files
+- Apply tooling rules for build and configuration files
+
+### Configuration Files
+- Apply monorepo rules for workspace configuration
+- Apply security rules for environment and deployment configs
+
+## Context Based Rules
+
+### Performance Context
+- Apply performance rules when working on:
+  - Large components or pages
+  - Data fetching operations
+  - Image optimization
+  - Bundle size optimization
+
+### Security Context
+- Apply security rules when working on:
+  - Authentication flows
+  - User input handling
+  - API endpoints
+  - Environment variables
+
+### Testing Context
+- Apply testing rules when:
+  - Writing new features
+  - Refactoring existing code
+  - Setting up test infrastructure
+
+### Documentation Context
+- Apply documentation rules when:
+  - Creating new features
+  - Updating APIs
+  - Setting up new packages
+
+## Intelligent Triggers
+
+### Keywords that trigger specific rules:
+- "performance", "optimize", "bundle" → Performance rules
+- "auth", "login", "security" → Authentication & Security rules
+- "database", "prisma", "query" → Database rules
+- "api", "endpoint", "route" → API design rules
+- "component", "ui", "accessibility" → UI & Accessibility rules
+- "test", "coverage" → Testing rules
+- "monorepo", "workspace" → Monorepo rules
+- "seo", "meta", "search" → SEO rules
+- "webhook", "integration" → Webhooks package rules
+- "apikey", "key management" → API keys package rules
+- "common", "shared", "utility" → Common package rules
+- "tooling", "build", "config" → Tooling rules
+
+### File patterns that trigger rules:
+- `**/components/**` → Component architecture + UI rules
+- `**/api/**` → API design + Authentication rules
+- `**/prisma/**` → Database rules
+- `**/app/**` → Next.js + Performance rules
+- `**/tests/**` → Testing rules
+- `**/docs/**` → Documentation rules
+
+### Package-specific patterns that trigger rules:
+- `**/packages/auth/**` → Auth package + Authentication + Security rules
+- `**/packages/ui/**` → UI package + Component architecture + Accessibility rules
+- `**/packages/routes/**` → Routes package + API design + Error handling rules
+- `**/packages/webhooks/**` → Webhooks package + API design + Security rules
+- `**/packages/common/**` → Common package + General principles + TypeScript rules
+- `**/packages/apikeys/**` → API keys package + Security + Authentication rules
+- `**/tooling/**` → Tooling + Monorepo + CI/CD rules

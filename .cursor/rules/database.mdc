@@ -1,0 +1,19 @@
+---
+description: Database design and Prisma best practices for scalable and maintainable data management.
+alwaysApply: false
+---
+- Use proper database indexes for frequently queried fields.
+- Implement database migrations with proper rollback strategies.
+- Use Prisma's type-safe queries and avoid raw SQL when possible.
+- Implement proper database connection pooling and management.
+- Use database transactions for operations that modify multiple records.
+- Implement proper data validation at the database level with constraints.
+- Use Prisma's include and select to optimize query performance.
+- Implement proper error handling for database operations.
+- Use database views for complex queries that are used frequently.
+- Implement proper database backup and recovery strategies.
+- Use database seeding for development and testing environments.
+- Implement proper database schema versioning and documentation.
+- Use Prisma's middleware for cross-cutting concerns like logging and validation.
+- Implement proper database security practices (encryption, access control).
+- Use database monitoring and performance analysis tools.

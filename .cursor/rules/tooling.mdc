@@ -1,0 +1,19 @@
+---
+description: Tooling rules for build tools, configurations, and development utilities in the tooling directory.
+alwaysApply: false
+---
+- Create centralized build configurations for all packages.
+- Implement proper ESLint and Prettier configurations.
+- Use proper TypeScript configuration sharing across packages.
+- Create proper Tailwind CSS configuration and theme management.
+- Implement proper testing configuration and test utilities.
+- Use proper bundling and build optimization tools.
+- Create proper development server configurations.
+- Implement proper code generation and scaffolding tools.
+- Use proper dependency management and versioning tools.
+- Create proper documentation generation and publishing tools.
+- Implement proper CI/CD pipeline configurations.
+- Use proper monitoring and analytics tool configurations.
+- Create proper security scanning and vulnerability tools.
+- Implement proper performance monitoring and profiling tools.
+- Use proper development environment setup and automation.

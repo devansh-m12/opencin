@@ -1,0 +1,19 @@
+---
+description: Monorepo management and workspace best practices for scalable project organization.
+alwaysApply: false
+---
+- Use proper workspace package naming conventions (@workspace/package-name).
+- Implement proper package dependency management across workspaces.
+- Use proper package versioning and publishing strategies.
+- Implement proper workspace build and test orchestration.
+- Use proper workspace configuration sharing (ESLint, TypeScript, etc.).
+- Implement proper workspace documentation and README files.
+- Use proper workspace development workflow (pnpm workspaces).
+- Implement proper workspace package isolation and boundaries.
+- Use proper workspace dependency hoisting and deduplication.
+- Implement proper workspace build caching and optimization.
+- Use proper workspace package publishing and distribution.
+- Implement proper workspace security and access control.
+- Use proper workspace monitoring and analytics.
+- Implement proper workspace backup and disaster recovery.
+- Use proper workspace migration and upgrade strategies.

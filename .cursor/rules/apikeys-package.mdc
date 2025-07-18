@@ -1,0 +1,19 @@
+---
+description: API keys package rules for API key management, validation, and security patterns.
+alwaysApply: false
+---
+- Implement proper API key generation with secure random algorithms.
+- Use proper API key hashing and storage (never store plain text).
+- Implement proper API key validation and verification.
+- Use proper API key scoping and permissions system.
+- Implement proper API key rate limiting and usage tracking.
+- Use proper API key expiration and rotation mechanisms.
+- Implement proper API key audit logging and monitoring.
+- Use proper API key security headers and encryption.
+- Implement proper API key testing strategies (unit, integration).
+- Use proper API key documentation and usage examples.
+- Implement proper API key error handling and recovery.
+- Use proper API key versioning and backward compatibility.
+- Implement proper API key performance optimization.
+- Use proper API key monitoring and alerting.
+- Create reusable API key utilities and middleware.

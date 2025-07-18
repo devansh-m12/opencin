@@ -1,0 +1,19 @@
+---
+description: Package structure and organization rules for the monorepo with auth, ui, routes, webhooks, and tooling packages.
+alwaysApply: false
+---
+- Organize packages in the `packages/` directory with clear separation of concerns.
+- Create `@workspace/auth` package for authentication and authorization logic.
+- Create `@workspace/ui` package for shared UI components and design system.
+- Create `@workspace/routes` package for API route handlers and server actions.
+- Create `@workspace/webhooks` package for webhook handlers and integrations.
+- Create `@workspace/common` package for shared utilities, types, and constants.
+- Create `@workspace/apikeys` package for API key management and validation.
+- Create `tooling/` directory for build tools, configurations, and development utilities.
+- Use proper package naming conventions (@workspace/package-name).
+- Implement proper package dependency management and versioning.
+- Create proper package boundaries and avoid circular dependencies.
+- Use proper package exports and entry points.
+- Implement proper package testing and documentation.
+- Use proper package publishing and distribution strategies.
+- Implement proper package security and access control.
