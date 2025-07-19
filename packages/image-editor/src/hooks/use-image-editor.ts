@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { createCanvas, addImageToCanvas, addTextToCanvas, addShapeToCanvas, clearCanvas, exportCanvas } from '../lib/fabric-canvas';
+import { createCanvas, addImageToCanvas, addTextToCanvas, addShapeToCanvas, clearCanvas, exportCanvas, loadImageAsBackground, resizeCanvas } from '../lib/fabric-canvas';
 
 export type Tool = 'select' | 'draw' | 'text' | 'rect' | 'circle' | 'triangle' | 'image';
 
@@ -12,19 +12,23 @@ export interface UseImageEditorOptions {
 export const useImageEditor = (options: UseImageEditorOptions) => {
   const [canvas, setCanvas] = useState<any>(null);
   const [currentTool, setCurrentTool] = useState<Tool>('select');
-  const [isDrawing, setIsDrawing] = useState(false);
   const [isFabricLoaded, setIsFabricLoaded] = useState(false);
+  const [hasImage, setHasImage] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Load Fabric.js on client side
   useEffect(() => {
-    if (typeof window !== 'undefined' && !window.fabric) {
-      import('fabric').then((fabricModule) => {
-        window.fabric = fabricModule.fabric;
+    if (typeof window !== 'undefined') {
+      if (!window.fabric) {
+        import('fabric').then((fabricModule) => {
+          window.fabric = fabricModule.fabric;
+          setIsFabricLoaded(true);
+        }).catch((error) => {
+          console.error('Failed to load Fabric.js:', error);
+        });
+      } else {
         setIsFabricLoaded(true);
-      });
-    } else if (typeof window !== 'undefined' && window.fabric) {
-      setIsFabricLoaded(true);
+      }
     }
   }, []);
 
@@ -43,7 +47,7 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
     } catch (error) {
       console.error('Failed to initialize canvas:', error);
     }
-  }, [isFabricLoaded, canvas, options.width, options.height, options.backgroundColor]);
+  }, [isFabricLoaded, canvas, options]);
 
   const initializeCanvas = useCallback(() => {
     if (!canvasRef.current || !isFabricLoaded) return;
@@ -96,7 +100,23 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
 
   const addImage = useCallback(async (imageUrl: string) => {
     if (!canvas) return;
-    return await addImageToCanvas(canvas, imageUrl);
+    const result = await addImageToCanvas(canvas, imageUrl);
+    setHasImage(true);
+    return result;
+  }, [canvas]);
+
+  const loadImage = useCallback(async (imageUrl: string) => {
+    if (!canvas) {
+      return;
+    }
+    const result = await loadImageAsBackground(canvas, imageUrl);
+    setHasImage(true);
+    return result;
+  }, [canvas]);
+
+  const resizeCanvasToSize = useCallback((newWidth: number, newHeight: number) => {
+    if (!canvas) return;
+    resizeCanvas(canvas, newWidth, newHeight);
   }, [canvas]);
 
   const addText = useCallback((text: string) => {
@@ -112,6 +132,7 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
   const clear = useCallback(() => {
     if (!canvas) return;
     clearCanvas(canvas);
+    setHasImage(false);
   }, [canvas]);
 
   const save = useCallback((format: 'png' | 'jpeg' = 'png') => {
@@ -137,10 +158,12 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
     canvas,
     canvasRef,
     currentTool,
-    isDrawing,
+    hasImage,
     initializeCanvas,
     setTool,
     addImage,
+    loadImage,
+    resizeCanvasToSize,
     addText,
     addShape,
     clear,

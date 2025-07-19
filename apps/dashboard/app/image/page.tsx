@@ -18,18 +18,12 @@ export default function ImageEditorPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Image Editor</h1>
-        <p className="text-muted-foreground">
-          Create and edit images with our powerful canvas-based editor
-        </p>
-      </div>
 
       <Card className="h-[calc(100vh-200px)]">
         <CardHeader>
-          <CardTitle>Canvas Editor</CardTitle>
+          <CardTitle>Image Editor</CardTitle>
           <CardDescription>
-            Use the toolbar to draw, add shapes, text, and images. Click save to download your creation.
+            Upload an image to get started. Add text, shapes, and other elements to enhance your image.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 h-full">

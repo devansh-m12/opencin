@@ -8,7 +8,6 @@ import {
   Square, 
   Circle, 
   Triangle, 
-  Image, 
   RotateCcw, 
   RotateCw, 
   Trash2,
@@ -25,6 +24,7 @@ interface ToolbarProps {
   onSave: () => void;
   canUndo?: boolean;
   canRedo?: boolean;
+  hasImage?: boolean;
 }
 
 const tools = [
@@ -34,7 +34,6 @@ const tools = [
   { id: 'rect' as Tool, icon: Square, label: 'Rectangle' },
   { id: 'circle' as Tool, icon: Circle, label: 'Circle' },
   { id: 'triangle' as Tool, icon: Triangle, label: 'Triangle' },
-  { id: 'image' as Tool, icon: Image, label: 'Image' },
 ];
 
 export const Toolbar: React.FC<ToolbarProps> = ({
@@ -46,6 +45,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   onSave,
   canUndo = false,
   canRedo = false,
+  hasImage = false,
 }) => {
   return (
     <div className="flex items-center gap-2 p-4 bg-background border-b">
@@ -61,6 +61,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
               onClick={() => onToolChange(tool.id)}
               title={tool.label}
               className="h-8 w-8 p-0"
+              disabled={!hasImage && tool.id !== 'select'}
             >
               <Icon className="h-4 w-4" />
             </Button>
@@ -76,7 +77,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           variant="outline"
           size="sm"
           onClick={onUndo}
-          disabled={!canUndo}
+          disabled={!canUndo || !hasImage}
           title="Undo"
           className="h-8 w-8 p-0"
         >
@@ -86,7 +87,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           variant="outline"
           size="sm"
           onClick={onRedo}
-          disabled={!canRedo}
+          disabled={!canRedo || !hasImage}
           title="Redo"
           className="h-8 w-8 p-0"
         >
@@ -102,6 +103,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           variant="outline"
           size="sm"
           onClick={onClear}
+          disabled={!hasImage}
           title="Clear Canvas"
           className="h-8 w-8 p-0"
         >
@@ -111,6 +113,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           variant="default"
           size="sm"
           onClick={onSave}
+          disabled={!hasImage}
           title="Save Image"
           className="h-8 px-3"
         >
