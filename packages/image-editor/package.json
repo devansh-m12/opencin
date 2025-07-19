@@ -1,0 +1,38 @@
+{
+  "name": "@workspace/image-editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo build dist node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@workspace/common": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "fabric": "^5.3.0",
+    "lucide-react": "0.468.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/fabric": "^5.3.0",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/tailwind-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
+  },
+  "prettier": "@workspace/prettier-config",
+  "exports": {
+    ".": "./src/index.ts",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts"
+  }
+}
