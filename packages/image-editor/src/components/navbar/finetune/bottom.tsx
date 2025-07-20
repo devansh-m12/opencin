@@ -2,13 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Slider } from '@workspace/ui/components/slider';
 import { cn } from '@workspace/ui/lib/utils';
 import { Sliders } from 'lucide-react';
-import { FinetuneValues } from '../../../hooks/use-image-editor';
-
-interface FinetuneBottomProps {
-  values: FinetuneValues;
-  onValueChange: (key: keyof FinetuneValues, value: number) => void;
-  hasImage?: boolean;
-}
+import { useImageEditorContext } from '../../../contexts/image-editor-context';
+import { type FinetuneValues } from '../../../hooks/use-image-editor';
 
 const adjustmentOptions = [
   { key: 'brightness' as const, label: 'Brightness', min: -100, max: 100, step: 1 },
@@ -21,12 +16,13 @@ const adjustmentOptions = [
   { key: 'vignette' as const, label: 'Vignette', min: 0, max: 100, step: 1 },
 ] as const;
 
-const Bottom: React.FC<FinetuneBottomProps> = ({ values, onValueChange, hasImage = false }) => {
+const Bottom: React.FC = () => {
+  const { hasImage, finetuneValues, updateFinetuneValue } = useImageEditorContext();
   const [activeAdjustment, setActiveAdjustment] = useState<keyof FinetuneValues>('brightness');
   const [sliderValue, setSliderValue] = useState<number>(0);
 
   const currentOption = adjustmentOptions.find(option => option.key === activeAdjustment);
-  const currentValue = values[activeAdjustment];
+  const currentValue = finetuneValues[activeAdjustment];
 
   // Update slider value when active adjustment changes
   useEffect(() => {
@@ -35,17 +31,17 @@ const Bottom: React.FC<FinetuneBottomProps> = ({ values, onValueChange, hasImage
 
   const handleSliderChange = useCallback((newValue: number[]) => {
     const value = newValue[0];
-    console.log(`Slider changed: ${activeAdjustment} = ${value}`);
+    console.log(`Slider changed: ${String(activeAdjustment)} = ${value}`);
     setSliderValue(value);
-    onValueChange(activeAdjustment, value);
-  }, [activeAdjustment, onValueChange]);
+    updateFinetuneValue(activeAdjustment, value);
+  }, [activeAdjustment, updateFinetuneValue]);
 
   const handleAdjustmentChange = useCallback((key: keyof FinetuneValues) => {
-    console.log(`Switching to adjustment: ${key}`);
+    console.log(`Switching to adjustment: ${String(key)}`);
     setActiveAdjustment(key);
     // Update slider value to match the new adjustment
-    setSliderValue(values[key]);
-  }, [values]);
+    setSliderValue(finetuneValues[key]);
+  }, [finetuneValues]);
 
   if (!hasImage) {
     return (
@@ -109,7 +105,7 @@ const Bottom: React.FC<FinetuneBottomProps> = ({ values, onValueChange, hasImage
                 ? "bg-blue-600 text-white"
                 : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"
             )}
-            title={`${option.label}: ${values[option.key]}`}
+            title={`${option.label}: ${finetuneValues[option.key]}`}
           >
             {option.label}
           </button>

@@ -12,6 +12,7 @@ A React-based image editor built with Fabric.js for the OpenDov workspace.
 - Undo/redo functionality
 - Export capabilities
 - **NEW**: Advanced navbar system with finetune and filter features
+- **NEW**: Independent navbar components using shared context
 
 ## Usage
 
@@ -47,17 +48,96 @@ function MyComponent() {
 
 ## Components
 
-- `ImageEditor` - Basic editor component
+- `ImageEditor` - Basic editor component with context provider
 - `ImageEditorWithNavbar` - Advanced editor with navbar system
 - `ClientImageEditor` - Client-side wrapper for basic editor
 - `ClientImageEditorWithNavbar` - Client-side wrapper for navbar editor
 - `Toolbar` - Editing tools toolbar
 - `Navbar` - Main sidebar navigation
 
+## Context System
+
+The image editor now uses a React context to share state across all navbar components:
+
+### ImageEditorProvider
+Wraps the editor and provides shared state to all child components.
+
+### useImageEditorContext
+Hook to access the shared image editor state from any navbar component.
+
+```tsx
+import { ImageEditorProvider, useImageEditorContext } from '@workspace/image-editor';
+
+function MyCustomComponent() {
+  const { hasImage, addText, clear } = useImageEditorContext();
+  
+  return (
+    <div>
+      {hasImage && (
+        <button onClick={() => addText('Hello World')}>
+          Add Text
+        </button>
+      )}
+    </div>
+  );
+}
+
+function MyApp() {
+  return (
+    <ImageEditorProvider options={{ width: 800, height: 600 }}>
+      <MyCustomComponent />
+    </ImageEditorProvider>
+  );
+}
+```
+
 ## Hooks
 
 - `useImageEditor` - Custom hook for editor state management with finetune functionality
 - `useNavbar` - Custom hook for navbar state management
+- `useImageEditorContext` - Hook to access shared editor state from context
+
+## Independent Navbar Components
+
+All navbar components are now independent and use the shared context instead of receiving props. This makes them more maintainable and easier to use:
+
+### Annotations Components
+- `AnnotationsTopbar` - Independent top toolbar for annotations mode
+- `AnnotationsBottom` - Independent bottom toolbar with annotation tools
+
+### Finetune Components  
+- `FinetuneTopbar` - Independent top toolbar for finetune mode
+- `FinetuneBottom` - Independent bottom toolbar with adjustment sliders
+
+### Filter Components
+- `FilterTopbar` - Independent top toolbar for filter mode
+- `FilterBottom` - Independent bottom toolbar with filter presets
+
+### Using Independent Components
+```tsx
+import { 
+  ImageEditorProvider, 
+  AnnotationsTopbar, 
+  AnnotationsBottom,
+  FinetuneTopbar,
+  FinetuneBottom 
+} from '@workspace/image-editor';
+
+function MyCustomEditor() {
+  return (
+    <ImageEditorProvider options={{ width: 800, height: 600 }}>
+      <div className="flex h-screen">
+        {/* Your custom layout */}
+        <div className="flex-1 flex flex-col">
+          <AnnotationsTopbar />
+          {/* Canvas area */}
+          <AnnotationsBottom />
+        </div>
+      </div>
+    </ImageEditorProvider>
+  );
+}
+```
 
 ## Annotations Functionality
 
@@ -71,7 +151,7 @@ The image editor includes comprehensive annotation tools for adding text, shapes
 
 ### Using Annotations in Custom Components
 ```tsx
-import { useImageEditor } from '@workspace/image-editor';
+import { useImageEditorContext } from '@workspace/image-editor';
 
 function MyCustomEditor() {
   const {
@@ -80,10 +160,7 @@ function MyCustomEditor() {
     addText,
     addShape,
     clear,
-  } = useImageEditor({
-    width: 800,
-    height: 600,
-  });
+  } = useImageEditorContext();
 
   const handleAddText = () => {
     addText('Hello World');
@@ -129,7 +206,7 @@ The image editor now includes advanced finetune adjustments that work directly o
 
 ### Using Finetune in Custom Components
 ```tsx
-import { useImageEditor, type FinetuneValues } from '@workspace/image-editor';
+import { useImageEditorContext } from '@workspace/image-editor';
 
 function MyCustomEditor() {
   const {
@@ -140,10 +217,7 @@ function MyCustomEditor() {
     resetFinetune,
     getFilterStatus, // New: Get current filter status
     refreshFilters,  // New: Manually refresh filters
-  } = useImageEditor({
-    width: 800,
-    height: 600,
-  });
+  } = useImageEditorContext();
 
   const handleBrightnessChange = (value: number) => {
     updateFinetuneValue('brightness', value);

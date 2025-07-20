@@ -25,6 +25,13 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
   const [currentTool, setCurrentTool] = useState<Tool>('select');
   const [isFabricLoaded, setIsFabricLoaded] = useState(false);
   const [hasImage, setHasImage] = useState(false);
+  const [canvasDimensions, setCanvasDimensions] = useState({
+    width: options.width,
+    height: options.height,
+    scale: 1,
+    originalWidth: 0,
+    originalHeight: 0
+  });
   const [finetuneValues, setFinetuneValues] = useState<FinetuneValues>({
     brightness: 0,
     contrast: 0,
@@ -36,9 +43,6 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
     vignette: 0,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-
-
 
   // Load Fabric.js on client side
   useEffect(() => {
@@ -131,16 +135,45 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
 
   const loadImage = useCallback(async (imageUrl: string) => {
     if (!canvas) {
-      return;
+      console.error('Canvas not initialized');
+      return null;
     }
-    const result = await loadImageAsBackground(canvas, imageUrl);
-    setHasImage(true);
-    return result;
+    
+    try {
+      const result = await loadImageAsBackground(canvas, imageUrl);
+      
+      if (result) {
+        setHasImage(true);
+        setCanvasDimensions({
+          width: result.canvasWidth,
+          height: result.canvasHeight,
+          scale: result.scale,
+          originalWidth: result.originalWidth,
+          originalHeight: result.originalHeight
+        });
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Failed to load image:', error);
+      setHasImage(false);
+      return null;
+    }
   }, [canvas]);
 
   const resizeCanvasToSize = useCallback((newWidth: number, newHeight: number) => {
     if (!canvas) return;
-    resizeCanvas(canvas, newWidth, newHeight);
+    
+    try {
+      resizeCanvas(canvas, newWidth, newHeight);
+      setCanvasDimensions(prev => ({
+        ...prev,
+        width: newWidth,
+        height: newHeight
+      }));
+    } catch (error) {
+      console.error('Failed to resize canvas:', error);
+    }
   }, [canvas]);
 
   const addText = useCallback((text: string) => {
@@ -155,13 +188,31 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
 
   const clear = useCallback(() => {
     if (!canvas) return;
-    clearCanvas(canvas);
-    setHasImage(false);
-  }, [canvas]);
+    
+    try {
+      clearCanvas(canvas);
+      setHasImage(false);
+      setCanvasDimensions({
+        width: options.width,
+        height: options.height,
+        scale: 1,
+        originalWidth: 0,
+        originalHeight: 0
+      });
+    } catch (error) {
+      console.error('Failed to clear canvas:', error);
+    }
+  }, [canvas, options.width, options.height]);
 
   const save = useCallback((format: 'png' | 'jpeg' = 'png') => {
     if (!canvas) return null;
-    return exportCanvas(canvas, format);
+    
+    try {
+      return exportCanvas(canvas, format);
+    } catch (error) {
+      console.error('Failed to save canvas:', error);
+      return null;
+    }
   }, [canvas]);
 
   const undo = useCallback(() => {
@@ -418,6 +469,7 @@ export const useImageEditor = (options: UseImageEditorOptions) => {
     currentTool,
     hasImage,
     finetuneValues,
+    canvasDimensions,
     initializeCanvas,
     setTool,
     addImage,

@@ -3,32 +3,47 @@ import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Card, CardContent } from '@workspace/ui/components/card';
-import { Plus, Type, Image, Upload, Edit3, Trash2 } from 'lucide-react';
+import { Plus, Type, Image, Upload, Edit3, Trash2, AlertCircle, Loader2 } from 'lucide-react';
+import { useImageEditorContext } from '../../../contexts/image-editor-context';
 
-interface AnnotationsBottomProps {
-  hasImage?: boolean;
-  onImageUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onAddText?: (text: string) => void;
-  onAddShape?: (shape: 'rect' | 'circle' | 'triangle') => void;
-  onClearImage?: () => void;
-  fileInputRef?: React.RefObject<HTMLInputElement | null>;
-}
-
-const Bottom: React.FC<AnnotationsBottomProps> = ({
-  hasImage = false,
-  onImageUpload,
-  onAddText,
-  onAddShape,
-  onClearImage,
-  fileInputRef,
-}) => {
+const Bottom: React.FC = () => {
+  const { hasImage, addText, addShape, clear, uploadImage } = useImageEditorContext();
   const [textInput, setTextInput] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddText = () => {
-    if (textInput.trim() && onAddText) {
-      onAddText(textInput);
+    if (textInput.trim()) {
+      addText(textInput);
       setTextInput('');
     }
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setIsUploading(true);
+      setUploadError(null);
+      
+      try {
+        await uploadImage(file);
+        // Clear the file input so the same file can be selected again
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+        setUploadError(error instanceof Error ? error.message : 'Failed to upload image');
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+
+  const handleClearImage = () => {
+    clear();
+    setUploadError(null);
   };
 
   if (!hasImage) {
@@ -67,17 +82,36 @@ const Bottom: React.FC<AnnotationsBottomProps> = ({
             </Label>
             <Button
               variant="outline"
-              onClick={() => fileInputRef?.current?.click()}
-              className="w-full bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="w-full bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600 disabled:opacity-50"
             >
-              <Upload className="h-4 w-4 mr-2" />
-              Change Image
+              {isUploading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4 mr-2" />
+                  Change Image
+                </>
+              )}
             </Button>
+            
+            {/* Error message */}
+            {uploadError && (
+              <div className="flex items-center gap-2 text-red-400 text-xs mt-2">
+                <AlertCircle className="h-3 w-3" />
+                <span>{uploadError}</span>
+              </div>
+            )}
+            
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              onChange={onImageUpload}
+              onChange={handleImageUpload}
               className="hidden"
             />
           </div>
@@ -125,7 +159,7 @@ const Bottom: React.FC<AnnotationsBottomProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onAddShape?.('rect')}
+                onClick={() => addShape('rect')}
                 className="bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
               >
                 Rectangle
@@ -133,7 +167,7 @@ const Bottom: React.FC<AnnotationsBottomProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onAddShape?.('circle')}
+                onClick={() => addShape('circle')}
                 className="bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
               >
                 Circle
@@ -141,7 +175,7 @@ const Bottom: React.FC<AnnotationsBottomProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onAddShape?.('triangle')}
+                onClick={() => addShape('triangle')}
                 className="bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
               >
                 Triangle
@@ -161,7 +195,7 @@ const Bottom: React.FC<AnnotationsBottomProps> = ({
             </Label>
             <Button
               variant="outline"
-              onClick={onClearImage}
+              onClick={handleClearImage}
               className="w-full bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
             >
               <Trash2 className="h-4 w-4 mr-2" />

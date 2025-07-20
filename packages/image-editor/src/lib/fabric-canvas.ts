@@ -88,37 +88,135 @@ export const loadImageAsBackground = async (
     throw new Error('Fabric.js can only be used on the client side');
   }
   
-  return new Promise<any>((resolve, _reject) => {
-    window.fabric.Image.fromURL(
-      imageUrl,
-      (img: any) => {
+  return new Promise<any>((resolve, reject) => {
+    // Create a temporary image to get dimensions first
+    const tempImg = new Image();
+    tempImg.crossOrigin = 'anonymous';
+    
+    // Set a timeout for image loading
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Image loading timeout'));
+    }, 30000); // 30 second timeout
+    
+    tempImg.onload = () => {
+      clearTimeout(timeoutId);
+      
+      try {
         // Get original image dimensions
-        const imgWidth = img.width || img.naturalWidth;
-        const imgHeight = img.height || img.naturalHeight;
+        const imgWidth = tempImg.naturalWidth || tempImg.width;
+        const imgHeight = tempImg.naturalHeight || tempImg.height;
         
-        // Ensure we have valid dimensions
-        if (!imgWidth || !imgHeight) {
+        // Validate dimensions
+        if (!imgWidth || !imgHeight || imgWidth <= 0 || imgHeight <= 0) {
           console.error('Invalid image dimensions:', { imgWidth, imgHeight });
-          resolve(null);
+          reject(new Error('Invalid image dimensions'));
           return;
         }
         
-        // Clear existing objects
-        canvas.clear();
+        // Check for minimum image size
+        const minDimension = 10;
+        if (imgWidth < minDimension || imgHeight < minDimension) {
+          console.error('Image too small:', { imgWidth, imgHeight });
+          reject(new Error('Image too small'));
+          return;
+        }
         
-        // Set image as background at original size
-        img.scaleX = 1;
-        img.scaleY = 1;
-        img.left = 0;
-        img.top = 0;
+        // Check for reasonable image size (prevent extremely large images)
+        const maxDimension = 4096;
+        if (imgWidth > maxDimension || imgHeight > maxDimension) {
+          console.warn('Image is very large, consider resizing:', { imgWidth, imgHeight });
+        }
         
-        canvas.setBackgroundImage(img, () => {
-          canvas.renderAll();
-          resolve(img);
-        });
-      },
-      { crossOrigin: 'anonymous' }
-    );
+        // Now load with Fabric.js
+        window.fabric.Image.fromURL(
+          imageUrl,
+          (img: any) => {
+            try {
+              // Validate the fabric image
+              if (!img || !img.width || !img.height) {
+                throw new Error('Failed to create fabric image');
+              }
+              
+              // Clear existing objects and background
+              canvas.clear();
+              canvas.setBackgroundImage(null, () => {
+                // Set the new background image
+                canvas.setBackgroundImage(img, () => {
+                  // Calculate optimal canvas size based on image and container
+                  const containerWidth = 800; // Default container width
+                  const containerHeight = 600; // Default container height
+                  
+                  // Calculate scale to fit image within container while maintaining aspect ratio
+                  const scaleX = containerWidth / imgWidth;
+                  const scaleY = containerHeight / imgHeight;
+                  const scale = Math.min(scaleX, scaleY, 1); // Don't scale up, only down
+                  
+                  // Ensure minimum scale for very small images
+                  const minScale = 0.1;
+                  const finalScale = Math.max(scale, minScale);
+                  
+                  // Calculate new canvas dimensions
+                  const newCanvasWidth = Math.round(imgWidth * finalScale);
+                  const newCanvasHeight = Math.round(imgHeight * finalScale);
+                  
+                  // Ensure minimum canvas size
+                  const minCanvasSize = 100;
+                  const finalCanvasWidth = Math.max(newCanvasWidth, minCanvasSize);
+                  const finalCanvasHeight = Math.max(newCanvasHeight, minCanvasSize);
+                  
+                  // Resize canvas to match the scaled image size
+                  canvas.setWidth(finalCanvasWidth);
+                  canvas.setHeight(finalCanvasHeight);
+                  
+                  // Scale the background image to fit the new canvas size
+                  img.scaleX = finalScale;
+                  img.scaleY = finalScale;
+                  img.left = 0;
+                  img.top = 0;
+                  
+                  // Center the image if it's smaller than the canvas
+                  if (finalScale < 1) {
+                    const offsetX = (finalCanvasWidth - (imgWidth * finalScale)) / 2;
+                    const offsetY = (finalCanvasHeight - (imgHeight * finalScale)) / 2;
+                    img.left = Math.max(0, offsetX);
+                    img.top = Math.max(0, offsetY);
+                  }
+                  
+                  // Apply the background image again with new settings
+                  canvas.setBackgroundImage(img, () => {
+                    canvas.renderAll();
+                    resolve({
+                      image: img,
+                      originalWidth: imgWidth,
+                      originalHeight: imgHeight,
+                      canvasWidth: finalCanvasWidth,
+                      canvasHeight: finalCanvasHeight,
+                      scale: finalScale
+                    });
+                  });
+                });
+              });
+            } catch (error) {
+              console.error('Error setting background image:', error);
+              reject(error);
+            }
+          },
+          { crossOrigin: 'anonymous' }
+        );
+      } catch (error) {
+        clearTimeout(timeoutId);
+        console.error('Error processing image:', error);
+        reject(error);
+      }
+    };
+    
+    tempImg.onerror = () => {
+      clearTimeout(timeoutId);
+      console.error('Failed to load image:', imageUrl);
+      reject(new Error('Failed to load image - check if the image format is supported'));
+    };
+    
+    tempImg.src = imageUrl;
   });
 };
 

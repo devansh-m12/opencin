@@ -5,6 +5,9 @@ export { useImageEditor, type FinetuneValues } from './hooks/use-image-editor';
 export { useNavbar } from './hooks/use-navbar';
 export * from './lib/fabric-canvas';
 
+// Context
+export { ImageEditorProvider, useImageEditorContext } from './contexts/image-editor-context';
+
 // Navbar components
 export { default as Navbar } from './components/navbar';
 export * from './components/navbar/annotations';

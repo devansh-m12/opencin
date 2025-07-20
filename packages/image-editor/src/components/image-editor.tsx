@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useImageEditor, type FinetuneValues } from '../hooks/use-image-editor';
 import { useNavbar } from '../hooks/use-navbar';
+import { ImageEditorProvider, useImageEditorContext } from '../contexts/image-editor-context';
 import Navbar from './navbar';
 import FinetuneTopbar from './navbar/finetune/topbar';
 import FinetuneBottom from './navbar/finetune/bottom';
@@ -19,7 +20,7 @@ interface ImageEditorWithNavbarProps {
   onSave?: (dataUrl: string) => void;
 }
 
-export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
+const ImageEditorContent: React.FC<ImageEditorWithNavbarProps> = ({
   width = 800,
   height = 600,
   backgroundColor = '#ffffff',
@@ -31,6 +32,7 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     currentTool,
     hasImage,
     finetuneValues,
+    canvasDimensions,
     setTool,
     loadImage,
     resizeCanvasToSize,
@@ -42,11 +44,8 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     redo,
     updateFinetuneValue,
     resetFinetune,
-  } = useImageEditor({
-    width,
-    height,
-    backgroundColor,
-  });
+    uploadImage,
+  } = useImageEditorContext();
 
   const {
     activeFeature,
@@ -61,42 +60,7 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [canvasSize, setCanvasSize] = useState({ width, height });
   const [zoomLevel, setZoomLevel] = useState(100);
-
-  // Auto-load image when canvas becomes available
-  useEffect(() => {
-    if (canvas && uploadedImage && !hasImage) {
-      loadImage(uploadedImage).then((img) => {
-        if (img) {
-          // Update canvas size to match image
-          const imgWidth = img.width || img.naturalWidth;
-          const imgHeight = img.height || img.naturalHeight;
-          setCanvasSize({ width: imgWidth, height: imgHeight });
-          
-          // Calculate scaled size and resize canvas
-          const containerWidth = 800;
-          const containerHeight = 600;
-          const scaleX = containerWidth / imgWidth;
-          const scaleY = containerHeight / imgHeight;
-          const scale = Math.min(scaleX, scaleY, 1);
-          const scaledWidth = Math.round(imgWidth * scale);
-          const scaledHeight = Math.round(imgHeight * scale);
-          
-          // Resize canvas to match scaled display size
-          resizeCanvasToSize(scaledWidth, scaledHeight);
-          
-          // Scale the background image to fit the new canvas size
-          if (canvas.backgroundImage) {
-            canvas.backgroundImage.scaleX = scale;
-            canvas.backgroundImage.scaleY = scale;
-            canvas.renderAll();
-          }
-        }
-      });
-    }
-  }, [canvas, uploadedImage, hasImage, loadImage, resizeCanvasToSize]);
 
   const handleToolChange = (tool: Tool) => {
     setTool(tool);
@@ -114,16 +78,18 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     }
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
-        setUploadedImage(imageUrl);
-        // The image will be auto-loaded when canvas becomes available
-      };
-      reader.readAsDataURL(file);
+      try {
+        await uploadImage(file);
+        // Clear the file input so the same file can be selected again
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+      }
     }
   };
 
@@ -140,12 +106,8 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     }
   };
 
-
-
   const handleClearImage = () => {
     clear();
-    setUploadedImage(null);
-    setCanvasSize({ width, height });
   };
 
   const handleReset = () => {
@@ -163,42 +125,36 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     setZoomLevel(prev => Math.max(prev - 10, 25));
   };
 
-  const handleFinetuneValueChange = (key: keyof FinetuneValues, value: number) => {
-    console.log(`Finetune value change: ${key} = ${value}`);
-    updateFinetuneValue(key, value);
-  };
+  // Calculate display size for the canvas container
+  const getDisplaySize = () => {
+    if (!hasImage) {
+      return { width, height, scale: 1 };
+    }
 
-  const handleFilterChange = (filterType: string, value: any) => {
-    // Placeholder for filter functionality
-    console.log('Filter changed:', filterType, value);
-  };
-
-  // Calculate scaled canvas size to fit screen
-  const getScaledCanvasSize = () => {
     const containerWidth = 800;
     const containerHeight = 600;
     
-    const { width: imgWidth, height: imgHeight } = canvasSize;
+    const { width: canvasWidth, height: canvasHeight } = canvasDimensions;
     
-    if (!imgWidth || !imgHeight || imgWidth <= 0 || imgHeight <= 0) {
+    if (!canvasWidth || !canvasHeight || canvasWidth <= 0 || canvasHeight <= 0) {
       return { width: 400, height: 300, scale: 1 };
     }
     
-    const scaleX = containerWidth / imgWidth;
-    const scaleY = containerHeight / imgHeight;
+    const scaleX = containerWidth / canvasWidth;
+    const scaleY = containerHeight / canvasHeight;
     const scale = Math.min(scaleX, scaleY, 1);
     
-    const scaledWidth = Math.round(imgWidth * scale);
-    const scaledHeight = Math.round(imgHeight * scale);
+    const displayWidth = Math.round(canvasWidth * scale);
+    const displayHeight = Math.round(canvasHeight * scale);
     
     return {
-      width: scaledWidth,
-      height: scaledHeight,
+      width: displayWidth,
+      height: displayHeight,
       scale
     };
   };
 
-  const scaledSize = getScaledCanvasSize();
+  const displaySize = getDisplaySize();
 
   return (
     <div className="flex h-screen bg-background">
@@ -216,42 +172,9 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
         {/* Top Toolbar - Conditional based on active feature */}
         {showTopbar && (
           <>
-            {isFeatureActive('annotations') && (
-              <AnnotationsTopbar
-                onUndo={undo}
-                onRedo={redo}
-                onZoomIn={handleZoomIn}
-                onZoomOut={handleZoomOut}
-                onDone={() => setActiveFeature('finetune')}
-                zoomLevel={zoomLevel}
-                canUndo={false} // TODO: Implement undo/redo state
-                canRedo={false}
-              />
-            )}
-            {isFeatureActive('finetune') && (
-              <FinetuneTopbar
-                onUndo={undo}
-                onRedo={redo}
-                onZoomIn={handleZoomIn}
-                onZoomOut={handleZoomOut}
-                onDone={() => setActiveFeature('filter')}
-                zoomLevel={zoomLevel}
-                canUndo={false} // TODO: Implement undo/redo state
-                canRedo={false}
-              />
-            )}
-            {isFeatureActive('filter') && (
-              <FilterTopbar
-                onUndo={undo}
-                onRedo={redo}
-                onZoomIn={handleZoomIn}
-                onZoomOut={handleZoomOut}
-                onDone={() => setActiveFeature('annotations')}
-                zoomLevel={zoomLevel}
-                canUndo={false}
-                canRedo={false}
-              />
-            )}
+            {isFeatureActive('annotations') && <AnnotationsTopbar />}
+            {isFeatureActive('finetune') && <FinetuneTopbar />}
+            {isFeatureActive('filter') && <FilterTopbar />}
           </>
         )}
 
@@ -303,14 +226,14 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
                     ref={canvasRef}
                     className="border border-border rounded shadow-sm"
                     style={{ 
-                      width: `${scaledSize.width}px`, 
-                      height: `${scaledSize.height}px`,
+                      width: `${displaySize.width}px`, 
+                      height: `${displaySize.height}px`,
                       display: 'block'
                     }}
                   />
                   <div className="absolute top-2 left-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-muted-foreground">
-                    {canvasSize.width} × {canvasSize.height}px
-                    {scaledSize.scale < 1 && ` (${Math.round(scaledSize.scale * 100)}%)`}
+                    {canvasDimensions.originalWidth} × {canvasDimensions.originalHeight}px
+                    {canvasDimensions.scale < 1 && ` (${Math.round(canvasDimensions.scale * 100)}%)`}
                   </div>
                 </div>
               )}
@@ -321,29 +244,20 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
         {/* Bottom Toolbar - Conditional based on active feature */}
         {showBottom && (
           <>
-            {isFeatureActive('annotations') && (
-              <AnnotationsBottom
-                hasImage={hasImage}
-                onImageUpload={handleImageUpload}
-                onAddText={addText}
-                onAddShape={addShape}
-                onClearImage={handleClearImage}
-                fileInputRef={fileInputRef}
-              />
-            )}
-            {isFeatureActive('finetune') && (
-              <FinetuneBottom
-                values={finetuneValues}
-                onValueChange={handleFinetuneValueChange}
-                hasImage={hasImage}
-              />
-            )}
-            {isFeatureActive('filter') && (
-              <FilterBottom onFilterChange={handleFilterChange} />
-            )}
+            {isFeatureActive('annotations') && <AnnotationsBottom />}
+            {isFeatureActive('finetune') && <FinetuneBottom />}
+            {isFeatureActive('filter') && <FilterBottom />}
           </>
         )}
       </div>
     </div>
+  );
+};
+
+export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = (props) => {
+  return (
+    <ImageEditorProvider options={{ width: props.width || 800, height: props.height || 600, backgroundColor: props.backgroundColor }}>
+      <ImageEditorContent {...props} />
+    </ImageEditorProvider>
   );
 }; 

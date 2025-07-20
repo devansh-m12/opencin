@@ -1,28 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { RotateCcw, RotateCw, Minus, Plus, Check, Edit3 } from 'lucide-react';
+import { useImageEditorContext } from '../../../contexts/image-editor-context';
 
-interface AnnotationsTopbarProps {
-  onUndo?: () => void;
-  onRedo?: () => void;
-  onZoomIn?: () => void;
-  onZoomOut?: () => void;
-  onDone?: () => void;
-  zoomLevel?: number;
-  canUndo?: boolean;
-  canRedo?: boolean;
-}
+const Topbar: React.FC = () => {
+  const { undo, redo, hasImage } = useImageEditorContext();
+  const [zoomLevel, setZoomLevel] = useState(100);
 
-const Topbar: React.FC<AnnotationsTopbarProps> = ({
-  onUndo,
-  onRedo,
-  onZoomIn,
-  onZoomOut,
-  onDone,
-  zoomLevel = 100,
-  canUndo = false,
-  canRedo = false,
-}) => {
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 10, 200));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 10, 25));
+  };
+
+  const handleDone = () => {
+    // This could be handled by a context or parent component
+    console.log('Annotations done');
+  };
+
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-gray-900 text-white">
       {/* Left side - History controls */}
@@ -30,8 +27,8 @@ const Topbar: React.FC<AnnotationsTopbarProps> = ({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onUndo}
-          disabled={!canUndo}
+          onClick={undo}
+          disabled={!hasImage}
           className="h-8 w-8 p-0 text-gray-300 hover:text-white hover:bg-gray-800"
           title="Undo"
         >
@@ -40,8 +37,8 @@ const Topbar: React.FC<AnnotationsTopbarProps> = ({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onRedo}
-          disabled={!canRedo}
+          onClick={redo}
+          disabled={!hasImage}
           className="h-8 w-8 p-0 text-gray-300 hover:text-white hover:bg-gray-800"
           title="Redo"
         >
@@ -59,7 +56,7 @@ const Topbar: React.FC<AnnotationsTopbarProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={onZoomOut}
+            onClick={handleZoomOut}
             className="h-8 w-8 p-0 text-gray-300 hover:text-white hover:bg-gray-800"
             title="Zoom Out"
           >
@@ -71,7 +68,7 @@ const Topbar: React.FC<AnnotationsTopbarProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={onZoomIn}
+            onClick={handleZoomIn}
             className="h-8 w-8 p-0 text-gray-300 hover:text-white hover:bg-gray-800"
             title="Zoom In"
           >
@@ -85,7 +82,7 @@ const Topbar: React.FC<AnnotationsTopbarProps> = ({
         <Button
           variant="default"
           size="sm"
-          onClick={onDone}
+          onClick={handleDone}
           className="bg-yellow-600 hover:bg-yellow-700 text-white px-4"
         >
           <Check className="h-4 w-4 mr-1" />
