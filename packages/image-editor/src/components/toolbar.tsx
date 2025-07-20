@@ -13,7 +13,7 @@ import {
   Trash2,
   Download
 } from 'lucide-react';
-import { Tool } from '../hooks/use-image-editor';
+import { Tool } from '../hooks';
 
 interface ToolbarProps {
   currentTool: Tool;

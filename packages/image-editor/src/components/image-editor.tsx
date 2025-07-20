@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useImageEditor, type FinetuneValues } from '../hooks/use-image-editor';
-import { useNavbar } from '../hooks/use-navbar';
+import { useImageEditor, type FinetuneValues, useNavbar } from '../hooks';
 import { ImageEditorProvider, useImageEditorContext } from '../contexts/image-editor-context';
 import Navbar from './navbar';
 import FinetuneTopbar from './navbar/finetune/topbar';
@@ -11,7 +10,7 @@ import AnnotationsTopbar from './navbar/annotations/topbar';
 import AnnotationsBottom from './navbar/annotations/bottom';
 import { Button } from '@workspace/ui/components/button';
 import { Upload, Image } from 'lucide-react';
-import { Tool } from '../hooks/use-image-editor';
+import { Tool } from '../hooks';
 
 interface ImageEditorWithNavbarProps {
   width?: number;

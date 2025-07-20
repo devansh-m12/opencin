@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useImageEditor, type UseImageEditorOptions, type Tool, type FinetuneValues } from '../hooks/use-image-editor';
+import { useImageEditor, type UseImageEditorOptions, type Tool, type FinetuneValues } from '../hooks';
 
 interface ImageEditorContextType {
   canvas: any;

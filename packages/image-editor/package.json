@@ -33,6 +33,8 @@
     ".": "./src/index.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
-    "./lib/*": "./src/lib/*.ts"
+    "./hooks/use-image-editor/*": "./src/hooks/use-image-editor/*.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./contexts/*": "./src/contexts/*.tsx"
   }
 }

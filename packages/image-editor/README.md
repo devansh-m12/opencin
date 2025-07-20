@@ -13,6 +13,75 @@ A React-based image editor built with Fabric.js for the OpenDov workspace.
 - Export capabilities
 - **NEW**: Advanced navbar system with finetune and filter features
 - **NEW**: Independent navbar components using shared context
+- **NEW**: Modular hooks architecture for better maintainability
+
+## Architecture
+
+The image editor now uses a modular hooks architecture that separates concerns into specialized hooks:
+
+### Core Hooks Structure
+
+```
+src/hooks/
+├── index.ts                    # Main hooks export
+├── use-navbar.ts              # Navbar state management
+└── use-image-editor/          # Modular image editor hooks
+    ├── index.ts               # Export all specialized hooks
+    ├── types.ts               # Shared type definitions
+    ├── use-image-editor.ts    # Main orchestrator hook
+    ├── use-canvas.ts          # Canvas management
+    ├── use-finetune.ts        # Image finetune adjustments
+    ├── use-image-upload.ts    # Image upload and loading
+    ├── use-image-export.ts    # Image export functionality
+    └── use-image-history.ts   # Undo/redo functionality
+```
+
+### Specialized Hooks
+
+#### `useCanvas`
+Manages canvas initialization, Fabric.js loading, and canvas dimensions.
+
+```tsx
+import { useCanvas } from '@workspace/image-editor/hooks/use-image-editor';
+
+const { canvas, canvasRef, isFabricLoaded, canvasDimensions } = useCanvas(options);
+```
+
+#### `useFinetune`
+Handles all image adjustment operations (brightness, contrast, saturation, etc.).
+
+```tsx
+import { useFinetune } from '@workspace/image-editor/hooks/use-image-editor';
+
+const { finetuneValues, updateFinetuneValue, resetFinetune } = useFinetune(canvas);
+```
+
+#### `useImageUpload`
+Manages image upload, loading, and validation.
+
+```tsx
+import { useImageUpload } from '@workspace/image-editor/hooks/use-image-editor';
+
+const { hasImage, uploadImage, loadImage, clearImage } = useImageUpload(canvas, updateDimensions);
+```
+
+#### `useImageExport`
+Handles image export and download functionality.
+
+```tsx
+import { useImageExport } from '@workspace/image-editor/hooks/use-image-editor';
+
+const { save, downloadImage, getImageData } = useImageExport(canvas);
+```
+
+#### `useImageHistory`
+Manages undo/redo functionality with state history.
+
+```tsx
+import { useImageHistory } from '@workspace/image-editor/hooks/use-image-editor';
+
+const { undo, redo, canUndo, canRedo, saveState } = useImageHistory(canvas);
+```
 
 ## Usage
 
@@ -42,6 +111,37 @@ function MyComponent() {
       height={600}
       onSave={(dataUrl) => console.log('Image saved:', dataUrl)}
     />
+  );
+}
+```
+
+### Using Individual Hooks
+```tsx
+import { 
+  useImageEditor, 
+  useCanvas, 
+  useFinetune, 
+  useImageUpload,
+  useImageExport,
+  useImageHistory 
+} from '@workspace/image-editor';
+
+function MyCustomEditor() {
+  // Use the main orchestrator hook
+  const editor = useImageEditor({ width: 800, height: 600 });
+  
+  // Or use individual hooks for specific functionality
+  const canvas = useCanvas({ width: 800, height: 600 });
+  const finetune = useFinetune(canvas.canvas);
+  const upload = useImageUpload(canvas.canvas, canvas.updateCanvasDimensions);
+  const export = useImageExport(canvas.canvas);
+  const history = useImageHistory(canvas.canvas);
+  
+  return (
+    <div>
+      <canvas ref={canvas.canvasRef} />
+      {/* Your custom UI */}
+    </div>
   );
 }
 ```
@@ -93,9 +193,17 @@ function MyApp() {
 
 ## Hooks
 
-- `useImageEditor` - Custom hook for editor state management with finetune functionality
+### Main Hooks
+- `useImageEditor` - Main orchestrator hook that combines all specialized hooks
 - `useNavbar` - Custom hook for navbar state management
 - `useImageEditorContext` - Hook to access shared editor state from context
+
+### Specialized Hooks
+- `useCanvas` - Canvas management and Fabric.js integration
+- `useFinetune` - Image adjustment and filter management
+- `useImageUpload` - Image upload, loading, and validation
+- `useImageExport` - Image export and download functionality
+- `useImageHistory` - Undo/redo with state history management
 
 ## Independent Navbar Components
 
@@ -322,4 +430,44 @@ function MyComponent() {
 
 ### Filter Components
 - `FilterTopbar` - Top toolbar for filter mode
-- `FilterBottom` - Bottom toolbar with filter presets 
+- `FilterBottom` - Bottom toolbar with filter presets
+
+## Type Definitions
+
+The package exports comprehensive TypeScript types:
+
+```tsx
+import type {
+  Tool,
+  UseImageEditorOptions,
+  FinetuneValues,
+  CanvasDimensions,
+  ImageEditorState,
+  ImageUploadResult,
+  FilterStatus,
+  HistoryState
+} from '@workspace/image-editor';
+```
+
+## Package Exports
+
+The package provides granular exports for different use cases:
+
+```tsx
+// Main exports
+import { ImageEditor, useImageEditor } from '@workspace/image-editor';
+
+// Individual hooks
+import { useCanvas } from '@workspace/image-editor/hooks/use-image-editor/use-canvas';
+import { useFinetune } from '@workspace/image-editor/hooks/use-image-editor/use-finetune';
+
+// Components
+import { Toolbar } from '@workspace/image-editor/components/toolbar';
+import { Navbar } from '@workspace/image-editor/components/navbar';
+
+// Context
+import { ImageEditorProvider, useImageEditorContext } from '@workspace/image-editor/contexts/image-editor-context';
+
+// Utilities
+import { createCanvas, exportCanvas } from '@workspace/image-editor/lib/fabric-canvas';
+``` 

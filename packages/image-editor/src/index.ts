@@ -1,8 +1,10 @@
 export { ImageEditor } from './components/image-editor';
 export { ClientImageEditor } from './components/client-image-editor';
 export { Toolbar } from './components/toolbar';
-export { useImageEditor, type FinetuneValues } from './hooks/use-image-editor';
-export { useNavbar } from './hooks/use-navbar';
+
+// Export all hooks from the new modular structure
+export * from './hooks';
+
 export * from './lib/fabric-canvas';
 
 // Context
