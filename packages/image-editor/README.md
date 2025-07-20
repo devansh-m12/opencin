@@ -59,6 +59,54 @@ function MyComponent() {
 - `useImageEditor` - Custom hook for editor state management with finetune functionality
 - `useNavbar` - Custom hook for navbar state management
 
+## Annotations Functionality
+
+The image editor includes comprehensive annotation tools for adding text, shapes, and managing images:
+
+### Available Tools
+- **Image Upload**: Upload and change images
+- **Text Overlay**: Add editable text to images
+- **Shape Tools**: Add rectangles, circles, and triangles
+- **Clear Canvas**: Remove all content and start fresh
+
+### Using Annotations in Custom Components
+```tsx
+import { useImageEditor } from '@workspace/image-editor';
+
+function MyCustomEditor() {
+  const {
+    canvas,
+    hasImage,
+    addText,
+    addShape,
+    clear,
+  } = useImageEditor({
+    width: 800,
+    height: 600,
+  });
+
+  const handleAddText = () => {
+    addText('Hello World');
+  };
+
+  const handleAddShape = () => {
+    addShape('rect');
+  };
+
+  return (
+    <div>
+      {hasImage && (
+        <div>
+          <button onClick={handleAddText}>Add Text</button>
+          <button onClick={handleAddShape}>Add Rectangle</button>
+          <button onClick={clear}>Clear Canvas</button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
 ## Finetune Functionality
 
 The image editor now includes advanced finetune adjustments that work directly on the canvas:
@@ -136,7 +184,7 @@ function MyCustomEditor() {
 The navbar system provides three types of navigation:
 
 ### 1. Main Sidebar (Left)
-- **Features**: Filter, Finetune
+- **Features**: Annotations, Filter, Finetune
 - **Controls**: Reset, Save
 - **Navigation**: Switch between editing features
 
@@ -145,6 +193,7 @@ The navbar system provides three types of navigation:
 - **Context**: Changes based on active feature
 
 ### 3. Bottom Toolbar (Optional)
+- **Annotations Mode**: Image upload, text tools, shape tools, and clear functionality
 - **Finetune Mode**: Interactive sliders for all finetune adjustments
 - **Filter Mode**: Filter presets (Vintage, B&W, Sepia, etc.)
 
@@ -188,6 +237,10 @@ function MyComponent() {
 
 ### Main Navigation
 - `Navbar` - Main sidebar with feature switching
+
+### Annotations Components
+- `AnnotationsTopbar` - Top toolbar for annotations mode
+- `AnnotationsBottom` - Bottom toolbar with annotation tools (upload, text, shapes, clear)
 
 ### Finetune Components
 - `FinetuneTopbar` - Top toolbar for finetune mode

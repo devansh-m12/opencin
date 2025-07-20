@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@workspace/ui/components/button';
-import { Filter, Sliders, RotateCcw, Save } from 'lucide-react';
+import { Filter, Sliders, RotateCcw, Save, Edit3 } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { NavbarFeature } from '../../hooks/use-navbar';
 
@@ -20,6 +20,11 @@ const Navbar: React.FC<NavbarProps> = ({
   isFeatureActive 
 }) => {
   const features = [
+    {
+      id: 'annotations' as const,
+      icon: Edit3,
+      label: 'Annotations',
+    },
     {
       id: 'finetune' as const,
       icon: Sliders,

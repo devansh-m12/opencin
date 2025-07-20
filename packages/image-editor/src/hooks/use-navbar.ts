@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-export type NavbarFeature = 'filter' | 'finetune';
+export type NavbarFeature = 'filter' | 'finetune' | 'annotations';
 
 export interface NavbarState {
   // Main sidebar navigation
@@ -36,7 +36,7 @@ export interface UseNavbarOptions {
 
 export const useNavbar = (options: UseNavbarOptions = {}) => {
   const {
-    initialFeature = 'finetune',
+    initialFeature = 'annotations',
     showTopbar = true,
     showBottom = true,
   } = options;

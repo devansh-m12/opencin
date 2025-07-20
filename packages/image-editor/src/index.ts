@@ -7,5 +7,6 @@ export * from './lib/fabric-canvas';
 
 // Navbar components
 export { default as Navbar } from './components/navbar';
+export * from './components/navbar/annotations';
 export * from './components/navbar/finetune';
 export * from './components/navbar/filter'; 

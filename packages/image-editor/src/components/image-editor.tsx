@@ -6,11 +6,10 @@ import FinetuneTopbar from './navbar/finetune/topbar';
 import FinetuneBottom from './navbar/finetune/bottom';
 import FilterTopbar from './navbar/filter/topbar';
 import FilterBottom from './navbar/filter/bottom';
+import AnnotationsTopbar from './navbar/annotations/topbar';
+import AnnotationsBottom from './navbar/annotations/bottom';
 import { Button } from '@workspace/ui/components/button';
-import { Input } from '@workspace/ui/components/input';
-import { Label } from '@workspace/ui/components/label';
-import { Card, CardContent } from '@workspace/ui/components/card';
-import { Plus, Type, Image, Upload, Edit3, Trash2 } from 'lucide-react';
+import { Upload, Image } from 'lucide-react';
 import { Tool } from '../hooks/use-image-editor';
 
 interface ImageEditorWithNavbarProps {
@@ -56,13 +55,12 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     showTopbar,
     showBottom,
   } = useNavbar({
-    initialFeature: 'finetune',
+    initialFeature: 'annotations',
     showTopbar: true,
     showBottom: true,
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [textInput, setTextInput] = React.useState('');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [canvasSize, setCanvasSize] = useState({ width, height });
   const [zoomLevel, setZoomLevel] = useState(100);
@@ -142,12 +140,7 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
     }
   };
 
-  const handleAddText = () => {
-    if (textInput.trim()) {
-      addText(textInput);
-      setTextInput('');
-    }
-  };
+
 
   const handleClearImage = () => {
     clear();
@@ -223,6 +216,18 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
         {/* Top Toolbar - Conditional based on active feature */}
         {showTopbar && (
           <>
+            {isFeatureActive('annotations') && (
+              <AnnotationsTopbar
+                onUndo={undo}
+                onRedo={redo}
+                onZoomIn={handleZoomIn}
+                onZoomOut={handleZoomOut}
+                onDone={() => setActiveFeature('finetune')}
+                zoomLevel={zoomLevel}
+                canUndo={false} // TODO: Implement undo/redo state
+                canRedo={false}
+              />
+            )}
             {isFeatureActive('finetune') && (
               <FinetuneTopbar
                 onUndo={undo}
@@ -241,7 +246,7 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
                 onRedo={redo}
                 onZoomIn={handleZoomIn}
                 onZoomOut={handleZoomOut}
-                onDone={() => setActiveFeature('finetune')}
+                onDone={() => setActiveFeature('annotations')}
                 zoomLevel={zoomLevel}
                 canUndo={false}
                 canRedo={false}
@@ -252,9 +257,9 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
 
         {/* Canvas Area */}
         <div className="flex-1 p-4">
-          <div className="flex gap-4 h-full">
+          <div className="h-full">
             {/* Canvas */}
-            <div className="flex-1 flex items-center justify-center bg-black rounded-lg overflow-hidden">
+            <div className="flex items-center justify-center bg-black rounded-lg overflow-hidden h-full">
               {!hasImage ? (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <canvas
@@ -282,6 +287,13 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
                         <Image className="h-4 w-4 mr-2" />
                         Choose Image
                       </Button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
                     </div>
                   </div>
                 </div>
@@ -303,129 +315,22 @@ export const ImageEditor: React.FC<ImageEditorWithNavbarProps> = ({
                 </div>
               )}
             </div>
-
-            {/* Right Sidebar - Tools */}
-            <div className="w-64 space-y-4">
-              {/* Image Upload Section */}
-              <Card>
-                <CardContent className="p-4">
-                  <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Image className="h-4 w-4" />
-                      Image Upload
-                    </Label>
-                    <Button
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="w-full"
-                    >
-                      <Upload className="h-4 w-4 mr-2" />
-                      {hasImage ? 'Change Image' : 'Upload Image'}
-                    </Button>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Text Tools */}
-              <Card>
-                <CardContent className="p-4">
-                  <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Type className="h-4 w-4" />
-                      Add Text
-                    </Label>
-                    <div className="flex gap-2">
-                      <Input
-                        value={textInput}
-                        onChange={(e) => setTextInput(e.target.value)}
-                        placeholder="Enter text..."
-                        onKeyPress={(e) => e.key === 'Enter' && handleAddText()}
-                      />
-                      <Button
-                        size="sm"
-                        onClick={handleAddText}
-                        disabled={!textInput.trim() || !hasImage}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Shape Tools */}
-              <Card>
-                <CardContent className="p-4">
-                  <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Edit3 className="h-4 w-4" />
-                      Add Shapes
-                    </Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => addShape('rect')}
-                        disabled={!hasImage}
-                      >
-                        Rectangle
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => addShape('circle')}
-                        disabled={!hasImage}
-                      >
-                        Circle
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => addShape('triangle')}
-                        disabled={!hasImage}
-                      >
-                        Triangle
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Clear Image */}
-              {hasImage && (
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="space-y-2">
-                      <Label className="flex items-center gap-2">
-                        <Trash2 className="h-4 w-4" />
-                        Clear Image
-                      </Label>
-                      <Button
-                        variant="outline"
-                        onClick={handleClearImage}
-                        className="w-full"
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Clear Canvas
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
           </div>
         </div>
 
         {/* Bottom Toolbar - Conditional based on active feature */}
         {showBottom && (
           <>
+            {isFeatureActive('annotations') && (
+              <AnnotationsBottom
+                hasImage={hasImage}
+                onImageUpload={handleImageUpload}
+                onAddText={addText}
+                onAddShape={addShape}
+                onClearImage={handleClearImage}
+                fileInputRef={fileInputRef}
+              />
+            )}
             {isFeatureActive('finetune') && (
               <FinetuneBottom
                 values={finetuneValues}
